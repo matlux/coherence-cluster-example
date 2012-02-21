@@ -1,0 +1,18 @@
+
+
+<!DOCTYPE pof-config SYSTEM "pof-config.dtd">
+
+<pof-config>
+  <user-type-list>
+  	<include>coherence-pof-config.xml</include>
+
+    <!-- com.seovic.samples.bank.domain.* types -->
+
+    <user-type>
+      <type-id>1000</type-id>
+      <class-name>net.matlux.training.coherence.mat.Position</class-name>
+    </user-type>
+
+  </user-type-list>
+
+</pof-config>

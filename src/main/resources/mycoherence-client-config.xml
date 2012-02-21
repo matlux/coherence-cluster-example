@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE cache-config SYSTEM "cache-config.dtd">
+
+<cache-config>
+
+	<caching-scheme-mapping>
+
+		<cache-mapping>
+			<cache-name>positions</cache-name>
+			<scheme-name>remote-positions-scheme</scheme-name>
+		</cache-mapping>
+
+
+	</caching-scheme-mapping>
+
+	<caching-schemes>
+
+		<remote-cache-scheme>
+			<scheme-name>remote-positions-scheme</scheme-name>
+			<scheme-ref>remote-default</scheme-ref>
+			<service-name>RemotePositionsCacheService</service-name>
+		</remote-cache-scheme>
+
+		<!--
+			Extend proxy should never use near caching, so we need to reconfigure
+			customers-scheme
+		-->
+
+
+		<!--
+      Default partitioned caching scheme.
+    -->
+		<remote-cache-scheme>
+			<scheme-name>remote-default</scheme-name>
+			<service-name>remoteCacheService</service-name>
+			<initiator-config>
+				<tcp-initiator>
+					<remote-addresses>
+						<socket-address>
+							<address system-property="mycoherence.proxy.host">NOT_SET</address>
+							<port system-property="mycoherence.proxy.port">NOT_SET</port>
+						</socket-address>
+					</remote-addresses>
+					<connect-timeout>10s</connect-timeout>
+				</tcp-initiator>
+				<serializer>
+					<class-name>com.tangosol.io.pof.ConfigurablePofContext</class-name>
+					<init-params>
+						<init-param>
+							<param-type>java.lang.String</param-type>
+							<param-value>mycoherence-pof-config.xml</param-value>
+						</init-param>
+					</init-params>
+				</serializer>
+			</initiator-config>
+			
+		</remote-cache-scheme>
+
+
+	</caching-schemes>
+</cache-config>

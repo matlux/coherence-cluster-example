@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+
+
+
+<!DOCTYPE cache-config SYSTEM "cache-config.dtd">
+
+<cache-config>
+
+  <caching-scheme-mapping>
+
+    <cache-mapping>
+      <cache-name>positions</cache-name>
+      <scheme-name>positions-scheme</scheme-name>
+    </cache-mapping>
+
+
+  </caching-scheme-mapping>
+
+  <caching-schemes>
+
+    <distributed-scheme>
+      <scheme-name>positions-scheme</scheme-name>
+      <scheme-ref>default-partitioned</scheme-ref>
+      <service-name>PositionsCacheService</service-name>
+      <autostart system-property="mycoherence.isStorage">false</autostart>
+    </distributed-scheme>
+
+    <!--
+      Extend proxy should never use near caching, so we need to
+      reconfigure customers-scheme
+    -->
+ 
+
+    <!--
+      Default partitioned caching scheme.
+    -->
+    <distributed-scheme>
+      <scheme-name>default-partitioned</scheme-name>
+      <service-name>DistributedCache</service-name>
+      <serializer>
+        <class-name>com.tangosol.io.pof.ConfigurablePofContext</class-name>
+        <init-params>
+          <init-param>
+            <param-type>java.lang.String</param-type>
+            <param-value>mycoherence-pof-config.xml</param-value>
+          </init-param>
+        </init-params>
+      </serializer>
+      <backing-map-scheme>
+        <local-scheme>
+          <scheme-ref>unlimited-backing-map</scheme-ref>
+        </local-scheme>
+      </backing-map-scheme>
+    </distributed-scheme>
+
+
+
+    <!--
+      Backing map scheme definition with no size limit or time-based eviction
+    -->
+    <local-scheme>
+      <scheme-name>unlimited-backing-map</scheme-name>
+    </local-scheme>
+
+    <!--
+      InvocationService scheme
+    -->
+    <invocation-scheme>
+      <scheme-name>InvocationService</scheme-name>
+      <autostart system-property="mycoherence.isProxy">false</autostart>
+    </invocation-scheme>
+
+    <!--
+      Proxy server scheme
+    -->
+	  <proxy-scheme>
+      <service-name>ExtendTcpProxyService</service-name>
+      <thread-count system-property="tangosol.coherence.extend.threads">5</thread-count> <!-- redundant --> 
+      <acceptor-config>
+        <tcp-acceptor>
+          <local-address>
+            <address system-property="mycoherence.proxy.host">NOT_SET</address>
+            <port system-property="mycoherence.proxy.port">NOT_SET</port>
+          </local-address>
+        </tcp-acceptor>
+        <serializer>
+          <class-name>com.tangosol.io.pof.ConfigurablePofContext</class-name>
+          <init-params>
+            <init-param>
+              <param-type>java.lang.String</param-type>
+              <param-value>mycoherence-pof-config.xml</param-value>
+            </init-param>
+          </init-params>
+        </serializer>
+      </acceptor-config>
+      <autostart system-property="mycoherence.isProxy">false</autostart>
+    </proxy-scheme>
+
+  </caching-schemes>
+</cache-config>
