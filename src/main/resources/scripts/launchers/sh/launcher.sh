@@ -25,6 +25,11 @@ if [ "$1" = "stopall" ]; then
 	exit
 fi
 
+if [ "$2" = "stop" ]; then
+	kill -9 `cat $TARGETDIR/tmp/pids/$1.pid`
+	exit
+fi
+
 
 . $APP_HOME/conf/$1.properties
 
