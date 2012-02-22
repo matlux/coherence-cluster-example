@@ -54,6 +54,12 @@
       <partition-listener>
 				<class-name>net.matlux.coherence.tools.partitions.PartitionListenerImp</class-name>
 	  </partition-listener>
+	  <partition-assignment-strategy>
+      	<instance>
+         <class-name>net.matlux.coherence.tools.partitions.MyPAStrategy
+         </class-name>
+      	</instance>
+   	  </partition-assignment-strategy>
 	  <partition-count>9</partition-count>
     </distributed-scheme>
     
