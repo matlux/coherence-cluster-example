@@ -51,6 +51,9 @@
           <scheme-ref>unlimited-backing-map</scheme-ref>
         </local-scheme>
       </backing-map-scheme>
+      <partition-listener>
+				<class-name>net.matlux.coherence.tools.partitions.PartitionListenerImp</class-name>
+	  </partition-listener>
     </distributed-scheme>
 
 
