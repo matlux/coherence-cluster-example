@@ -20,14 +20,7 @@ public class VerboseBackingMapListener extends AbstractMultiplexingBackingMapLis
     protected void onBackingMapEvent(MapEvent mapEvent, Cause cause) {
          
     	log.debug(String.format("Thread: %s Cause: %s Event: %s\n", Thread.currentThread().getName(), cause, mapEvent));
-        System.out.printf("Thread: %s Cause: %s Event: %s\n", Thread.currentThread().getName(), cause, mapEvent);
-
-        try {
-			Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+       //System.out.printf("Thread: %s Cause: %s Event: %s\n", Thread.currentThread().getName(), cause, mapEvent);
          
     }
 }

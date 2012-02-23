@@ -48,7 +48,7 @@
       </serializer>
       <backing-map-scheme>
         <local-scheme>
-          <scheme-ref>unlimited-backing-map</scheme-ref>
+          <scheme-ref>listened-unlimited-backing-map</scheme-ref>
         </local-scheme>
       </backing-map-scheme>
       <partition-listener>
@@ -80,7 +80,7 @@
       </serializer>
       <backing-map-scheme>
         <local-scheme>
-          <scheme-ref>listened-unlimited-backing-map</scheme-ref>
+          <scheme-ref>unlimited-backing-map</scheme-ref>
         </local-scheme>
       </backing-map-scheme>
     </distributed-scheme>
