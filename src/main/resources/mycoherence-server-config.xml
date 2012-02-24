@@ -12,7 +12,11 @@
       <cache-name>positions</cache-name>
       <scheme-name>positions-scheme</scheme-name>
     </cache-mapping>
-
+    
+    <cache-mapping>
+      <cache-name>perf*</cache-name>
+      <scheme-name>positions-scheme</scheme-name>
+    </cache-mapping>
 
   </caching-scheme-mapping>
 
@@ -92,6 +96,9 @@
     -->
     <local-scheme>
       <scheme-name>listened-unlimited-backing-map</scheme-name>
+      <eviction-policy>HYBRID</eviction-policy>
+      <high-units>10000000</high-units>
+      <unit-calculator>BINARY</unit-calculator>
       <listener> 
         <class-scheme>
         <class-name>net.matlux.coherence.tools.backingmap.VerboseBackingMapListener</class-name>

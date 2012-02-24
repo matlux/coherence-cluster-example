@@ -12,6 +12,12 @@
 			<scheme-name>remote-positions-scheme</scheme-name>
 		</cache-mapping>
 
+		<cache-mapping>
+			<cache-name>perf*</cache-name>
+			<scheme-name>remote-positions-scheme</scheme-name>
+		</cache-mapping>
+
+
 
 	</caching-scheme-mapping>
 

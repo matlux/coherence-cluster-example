@@ -47,7 +47,8 @@ if [ "$DAEMON" = "true" ]; then
 
 else
 
-	java -cp $CLASSPATH $OPTIONS $CLASS2LAUNCH $ARGS
+	shift
+	java -cp $CLASSPATH $OPTIONS $CLASS2LAUNCH $ARGS $*
 fi
 
 
