@@ -1,5 +1,6 @@
 package net.matlux.coherence.tools.partitions;
 
+import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -13,12 +14,14 @@ import com.tangosol.net.partition.DistributionManager;
 import com.tangosol.net.partition.Ownership;
 import com.tangosol.net.partition.PartitionSet;
 import com.tangosol.net.partition.SimpleAssignmentStrategy;
+import com.tangosol.util.UID;
 
 public class MyPAStrategy extends SimpleAssignmentStrategy {
 
 	private static final Logger log = Logger.getLogger(MyPAStrategy.class);
 	private String member = System.getProperty("tangosol.coherence.member");
 	private  DistributionManager manager;
+	private String lastMessage="";
 	
 	public void init(DistributionManager manager) {
 		this.manager= manager;
@@ -72,29 +75,73 @@ public class MyPAStrategy extends SimpleAssignmentStrategy {
 		
 		long mylong= super.analyzeDistribution();
 		String partitionByMembersSnapshot = getPartitionAllocationByMembers(manager);
-		log.debug(member + " says "+ partitionByMembersSnapshot);
+		String newMessage = member + " says "+ partitionByMembersSnapshot;
+		if(!lastMessage.equals(newMessage)) {
+			lastMessage=newMessage;
+			log.debug(newMessage);
+		}
+		
+		
 		return mylong;
 	}
 
 	private String getPartitionAllocationByMembers(DistributionManager manager2) {
 
 		Map<Member,PartitionSet> map = getPartitionMapByMembers(manager2);
+		Map<Member,PartitionSet> backupmap = getBackupPartitionMapByMembers(manager2);
 		ServiceInfo serviceInfo = manager2.getService().getInfo();
 		StringBuilder strb = new StringBuilder();
 		strb.append("senior="+serviceInfo.getOldestMember().getMemberName()+",");
 		for(Map.Entry<Member,PartitionSet> entry : map.entrySet()){
-			strb.append(" ").append(entry.getKey().getMemberName()).append(" has ").append(entry.getValue());
+			Member member = entry.getKey();
+			String memberName = "null";
+			if (member != null ) memberName=member.getMemberName();
+			
+			PartitionSet backupSet = backupmap.get(member);
+			int[] backupPart = new int[0];
+			if (backupSet != null ) backupPart=backupSet.toArray();
+			
+			strb.append(" ").append(memberName).
+				append(" has ").append(getString(entry.getValue().toArray())).
+				append(getString(backupPart));
 		}
 		return strb.toString();
 	}
 	
 	
+	private String getString(int[] array) {
+		StringBuilder stb = new StringBuilder();
+		stb.append("[");
+		for(int i : array) {
+			stb.append(i + " ");
+		}
+		stb.append("]");
+		return stb.toString();
+	}
+
 	private Map<Member,PartitionSet> getPartitionMapByMembers(DistributionManager manager2) {
 		Map<Member,PartitionSet>  memberPartition = new HashMap<Member, PartitionSet>();
 		PartitionedService service = manager2.getService();
 		int count = service.getPartitionCount();
 		for (int partitionNb=0; partitionNb<count;partitionNb++) {
 			Member member = service.getPartitionOwner(partitionNb);
+			PartitionSet set = memberPartition.get(member);
+			if (set==null) {
+				set = new PartitionSet(count);
+				memberPartition.put(member, set);
+			}
+			set.add(partitionNb);
+			
+		}
+		return memberPartition;
+	}
+	
+	private Map<Member,PartitionSet> getBackupPartitionMapByMembers(DistributionManager manager2) {
+		Map<Member,PartitionSet>  memberPartition = new HashMap<Member, PartitionSet>();
+		PartitionedService service = manager2.getService();
+		int count = service.getPartitionCount();
+		for (int partitionNb=0; partitionNb<count;partitionNb++) {
+			Member member = service.getBackupOwner(partitionNb,1);
 			PartitionSet set = memberPartition.get(member);
 			if (set==null) {
 				set = new PartitionSet(count);
