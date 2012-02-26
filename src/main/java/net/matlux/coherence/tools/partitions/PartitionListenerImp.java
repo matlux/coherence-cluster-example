@@ -40,7 +40,7 @@ public class PartitionListenerImp implements PartitionListener {
 		String fromMember = getFromMember(partitionEvent);
 		String toMember = getToMember(partitionEvent);
 		
-		log.debug(name + " says "+partitionEvent.getPartitionSet() + " " + evName +
+		log.info(name + " says "+partitionEvent.getPartitionSet() + " " + evName +
 				" from " + fromMember +
 				" to " + toMember);
 	}

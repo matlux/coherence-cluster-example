@@ -78,7 +78,7 @@ public class MyPAStrategy extends SimpleAssignmentStrategy {
 		String newMessage = member + " says "+ partitionByMembersSnapshot;
 		if(!lastMessage.equals(newMessage)) {
 			lastMessage=newMessage;
-			log.debug(newMessage);
+			log.info(newMessage);
 		}
 		
 		
