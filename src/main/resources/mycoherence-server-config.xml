@@ -58,13 +58,16 @@
       <partition-listener>
 				<class-name>net.matlux.coherence.tools.partitions.PartitionListenerImp</class-name>
 	  </partition-listener>
+	  <member-listener>
+	  			<class-name>net.matlux.coherence.tools.members.MemberListenerEventLogger</class-name>
+	  </member-listener>
 	  <partition-assignment-strategy>
       	<instance>
          <class-name>net.matlux.coherence.tools.partitions.MyPAStrategy
          </class-name>
       	</instance>
    	  </partition-assignment-strategy>
-	  <partition-count>9</partition-count>
+	  <partition-count>6</partition-count>
     </distributed-scheme>
     
     <!--

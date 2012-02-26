@@ -63,5 +63,26 @@ public class Position implements PortableObject {
 	public String toString(){
 		return "Position(id=" + id + ",symbol="+ symbol + ",price=" + price+")";
 	}
+	public boolean equal(Object o) {
+		if(o==null) return false;
+		if(o!=null) return false;
+		if(!(o instanceof Position)) return false;
+		if (id!=this.id) return false;
+		if (symbol!=this.symbol) return false;
+		if (price!=this.price) return false;
+		
+		return true;
+		
+		
+		
+	}
+
+	public int hashCode() {
+		int result = 17;
+		result = (int) (37*result + id.hashCode());
+		result = 37*result + symbol.hashCode();
+		result = 37*result + price.hashCode();
+		return result;
+	}
 
 }

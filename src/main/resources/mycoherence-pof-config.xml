@@ -13,6 +13,15 @@
       <class-name>net.matlux.training.coherence.mat.Position</class-name>
     </user-type>
 
+    <user-type>
+      <type-id>1001</type-id>
+      <class-name>net.matlux.coherence.tools.entryprocessors.ModifyEntryProcessor</class-name>
+      <serializer>
+      	<class-name>net.matlux.coherence.tools.serializers.ModifyEntryProcessorPofSerializer</class-name>
+      </serializer>
+    </user-type>
+
+
   </user-type-list>
 
 </pof-config>
