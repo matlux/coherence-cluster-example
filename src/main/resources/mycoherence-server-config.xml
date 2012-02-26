@@ -22,6 +22,23 @@
 
   <caching-schemes>
 
+    <invocation-scheme>
+      <scheme-name>invocation-scheme</scheme-name>
+      <service-name>invocation-service</service-name>
+      <thread-count>5</thread-count>
+      <serializer>
+        <class-name>com.tangosol.io.pof.ConfigurablePofContext</class-name>
+        <init-params>
+          <init-param>
+            <param-type>java.lang.String</param-type>
+            <param-value>mycoherence-pof-config.xml</param-value>
+          </init-param>
+        </init-params>
+      </serializer>
+      <autostart>true</autostart>
+    </invocation-scheme>
+
+
     <distributed-scheme>
       <scheme-name>positions-scheme</scheme-name>
       <scheme-ref>advanced-partitioned</scheme-ref>
