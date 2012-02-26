@@ -10,17 +10,29 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
+import sun.rmi.rmic.iiop.CompoundType.Member;
+
+import net.matlux.coherence.tools.agents.FreeMemoryAgent;
 import net.matlux.coherence.tools.backingmap.VerboseBackingMapListener;
 import net.matlux.coherence.tools.entryprocessors.ModifyEntryProcessor;
 import net.matlux.coherence.tools.entryprocessors.TransactionalEntryProcessor;
 
 
 import com.google.common.base.Stopwatch;
+import com.tangosol.io.Serializer;
 import com.tangosol.net.CacheFactory;
 import com.tangosol.net.CacheService;
+import com.tangosol.net.Cluster;
+import com.tangosol.net.Invocable;
+import com.tangosol.net.InvocationObserver;
+import com.tangosol.net.InvocationService;
+import com.tangosol.net.MemberListener;
 import com.tangosol.net.NamedCache;
+import com.tangosol.net.ServiceInfo;
+import com.tangosol.run.xml.XmlElement;
 import com.tangosol.util.Filter;
 import com.tangosol.util.MapListener;
+import com.tangosol.util.ServiceListener;
 import com.tangosol.util.ValueExtractor;
 import com.tangosol.util.InvocableMap.Entry;
 import com.tangosol.util.extractor.PofExtractor;
@@ -34,7 +46,7 @@ public class Client {
 
 	
 	
-	private static class LoggedNamedCache implements NamedCache {
+	private static class LoggedNamedCache implements NamedCache,InvocationService {
 
 		private String serviceId=Long.toString(Math.abs(new Random().nextLong()));
 
@@ -45,6 +57,7 @@ public class Client {
 		}
 		
 		private NamedCache positionCache = CacheFactory.getCache("positions");
+		private InvocationService invocationService = (InvocationService)CacheFactory.getService("invocation-service");
 		
 		@Override
 		public void addMapListener(MapListener arg0) {
@@ -307,6 +320,132 @@ public class Client {
 			// TODO Auto-generated method stub
 			
 		}
+
+		@Override
+		public void addMemberListener(MemberListener arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public Cluster getCluster() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public ServiceInfo getInfo() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public Serializer getSerializer() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public Object getUserContext() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public void removeMemberListener(MemberListener arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void setUserContext(Object arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void addServiceListener(ServiceListener arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void removeServiceListener(ServiceListener arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void configure(XmlElement arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public boolean isRunning() {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		public void shutdown() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void start() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void stop() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public ClassLoader getContextClassLoader() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public void setContextClassLoader(ClassLoader arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void execute(Invocable arg0, Set arg1, InvocationObserver arg2) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public Map query(Invocable invocable, Set arg1) {
+			final FreeMemoryAgent txInvoc = (FreeMemoryAgent) invocable;
+			
+			String txId = getNewTxId();
+			
+			txInvoc.setTxId(txId);
+			Stopwatch stopwatch = new Stopwatch().start();
+			Map obj = null;
+			try{
+				obj = invocationService.query(txInvoc, arg1);
+			} catch(RuntimeException e) {
+				stopwatch.stop();
+				long millis = stopwatch.elapsedMillis();
+				log.error(member + " [tx="+txId+"] invoke("+txInvoc+", "+arg1+") raised an exception:"+e.getMessage()+" lasted: "+millis +" ms");
+				throw e;
+			} finally {
+			}
+			stopwatch.stop();
+			long millis = stopwatch.elapsedMillis();
+			log.info(member +" [tx=" +txId +"] invoke("+txInvoc+", "+arg1+") lasted: "+millis +" ms");
+			return obj;
+		}
 		
 	}
 	
@@ -330,7 +469,19 @@ public class Client {
 		setData();
 		testQuery();
 		testEntryProc();
+		testInvocationAgent();
 	}
+	
+	public void testInvocationAgent() {
+		Map<Member, Integer> map = positionCache.query(new FreeMemoryAgent(),null);
+		
+		
+		for (Map.Entry<Member, Integer> freeMem : map.entrySet()) {
+			System.out.println("Member: " + freeMem.getKey() +
+								" Free: " + freeMem.getValue());
+		}
+	}
+
 	
 	public void testEntryProc() {
 		Collection<Long> collKeys = new LinkedList<Long>();
@@ -344,7 +495,7 @@ public class Client {
 		
 		positionCache.invokeAll(collKeys, new ModifyEntryProcessor(0.50));
 		
-		positionCache.invoke(1, new ModifyEntryProcessor(0.20));
+		//positionCache.invoke(1, new ModifyEntryProcessor(0.20));
 
 	}
 

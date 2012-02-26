@@ -63,6 +63,31 @@
 			</initiator-config>
 			
 		</remote-cache-scheme>
+		
+		<remote-invocation-scheme>
+		  <scheme-name>remote-invocation-scheme</scheme-name>
+			<service-name>invocation-service</service-name>
+			<initiator-config>
+				<tcp-initiator>
+					<remote-addresses>
+						<socket-address>
+							<address system-property="mycoherence.proxy.host">NOT_SET</address>
+							<port system-property="mycoherence.proxy.port">NOT_SET</port>
+						</socket-address>
+					</remote-addresses>
+					<connect-timeout>10s</connect-timeout>
+				</tcp-initiator>
+				<serializer>
+					<class-name>com.tangosol.io.pof.ConfigurablePofContext</class-name>
+					<init-params>
+						<init-param>
+							<param-type>java.lang.String</param-type>
+							<param-value>mycoherence-pof-config.xml</param-value>
+						</init-param>
+					</init-params>
+				</serializer>
+			</initiator-config>
+		</remote-invocation-scheme>
 
 
 	</caching-schemes>

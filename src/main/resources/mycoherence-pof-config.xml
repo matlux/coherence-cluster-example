@@ -6,8 +6,6 @@
   <user-type-list>
   	<include>coherence-pof-config.xml</include>
 
-    <!-- com.seovic.samples.bank.domain.* types -->
-
     <user-type>
       <type-id>1000</type-id>
       <class-name>net.matlux.training.coherence.mat.Position</class-name>
@@ -18,6 +16,14 @@
       <class-name>net.matlux.coherence.tools.entryprocessors.ModifyEntryProcessor</class-name>
       <serializer>
       	<class-name>net.matlux.coherence.tools.serializers.ModifyEntryProcessorPofSerializer</class-name>
+      </serializer>
+    </user-type>
+
+    <user-type>
+      <type-id>1002</type-id>
+      <class-name>net.matlux.coherence.tools.agents.FreeMemoryAgent</class-name>
+      <serializer>
+      	<class-name>net.matlux.coherence.tools.serializers.FreeMemoryAgentPofSerializer</class-name>
       </serializer>
     </user-type>
 
