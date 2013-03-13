@@ -12,7 +12,7 @@
       <cache-name>positions</cache-name>
       <scheme-name>positions-scheme</scheme-name>
     </cache-mapping>
-    
+
     <cache-mapping>
       <cache-name>perf*</cache-name>
       <scheme-name>positions-scheme</scheme-name>
@@ -50,7 +50,7 @@
       Extend proxy should never use near caching, so we need to
       reconfigure customers-scheme
     -->
- 
+
 
     <!--
       More advanced partitioned caching scheme.
@@ -73,20 +73,20 @@
         </local-scheme>
       </backing-map-scheme>
       <partition-listener>
-				<class-name>net.matlux.coherence.tools.partitions.PartitionListenerImp</class-name>
-	  </partition-listener>
-	  <member-listener>
-	  			<class-name>net.matlux.coherence.tools.members.MemberListenerEventLogger</class-name>
-	  </member-listener>
-	  <partition-assignment-strategy>
-      	<instance>
+                                <class-name>net.matlux.coherence.tools.partitions.PartitionListenerImp</class-name>
+          </partition-listener>
+          <member-listener>
+                                <class-name>net.matlux.coherence.tools.members.MemberListenerEventLogger</class-name>
+          </member-listener>
+          <partition-assignment-strategy>
+        <instance>
          <class-name>net.matlux.coherence.tools.partitions.MyPAStrategy
          </class-name>
-      	</instance>
-   	  </partition-assignment-strategy>
-	  <partition-count>6</partition-count>
+        </instance>
+          </partition-assignment-strategy>
+          <partition-count>6</partition-count>
     </distributed-scheme>
-    
+
     <!--
       Default partitioned caching scheme.
     -->
@@ -119,7 +119,7 @@
       <eviction-policy>HYBRID</eviction-policy>
       <high-units>10000000</high-units>
       <unit-calculator>BINARY</unit-calculator>
-      <listener> 
+      <listener>
         <class-scheme>
         <class-name>net.matlux.coherence.tools.backingmap.VerboseBackingMapListener</class-name>
              <init-params>
@@ -131,7 +131,7 @@
          </class-scheme>
       </listener>
     </local-scheme>
-    
+
     <!--
       Backing map scheme definition with no size limit or time-based eviction
     -->
@@ -150,9 +150,9 @@
     <!--
       Proxy server scheme
     -->
-	  <proxy-scheme>
+          <proxy-scheme>
       <service-name>ExtendTcpProxyService</service-name>
-      <thread-count system-property="tangosol.coherence.extend.threads">5</thread-count> <!-- redundant --> 
+      <thread-count system-property="tangosol.coherence.extend.threads">5</thread-count> <!-- redundant -->
       <acceptor-config>
         <tcp-acceptor>
           <local-address>

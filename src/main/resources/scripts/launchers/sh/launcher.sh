@@ -36,19 +36,31 @@ fi
 echo OPTIONS=$OPTIONS
 
 echo CLASSPATH=$CLASSPATH
+echo ARGS=$ARGS
 
 
 
 
 if [ "$DAEMON" = "true" ]; then
 	mkdir -p $TARGETDIR/tmp/pids
-	java -cp $CLASSPATH $OPTIONS $CLASS2LAUNCH $ARGS &
+	$CMD $CLASSPATH_PARAM $CLASSPATH $OPTIONS $CLASS2LAUNCH $ARGS &
 	echo $! > $TARGETDIR/tmp/pids/$1.pid
 
 else
-
 	shift
-	java -cp $CLASSPATH $OPTIONS $CLASS2LAUNCH $ARGS $*
+	echo params=$*
+	if [ "$CMD" = "clj" ]; then
+		    breakchars="(){}[],^%$#@\"\";:''|\\"
+	        echo java $CLASSPATH_PARAM $CLASSPATH $OPTIONS $CLASS2LAUNCH $ARGS $*
+		    exec rlwrap --remember -c -b "$breakchars" \
+	            -f "$HOME"/.clj_completions \
+	             java $CLASSPATH_PARAM $CLASSPATH $OPTIONS $CLASS2LAUNCH $ARGS $*
+			exit
+		
+	fi
+
+	echo launching: $CMD $CLASSPATH_PARAM $CLASSPATH $OPTIONS $CLASS2LAUNCH $ARGS $*	
+	$CMD $CLASSPATH_PARAM $CLASSPATH $OPTIONS $CLASS2LAUNCH $ARGS $*
 fi
 
 
