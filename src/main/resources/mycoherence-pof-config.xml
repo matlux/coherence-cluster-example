@@ -26,6 +26,28 @@
       	<class-name>net.matlux.coherence.tools.serializers.FreeMemoryAgentPofSerializer</class-name>
       </serializer>
     </user-type>
+    
+    <user-type>
+      <type-id>1003</type-id>
+      <class-name>clojure.lang.Keyword</class-name>
+      <serializer>
+      	<class-name>net.matlux.coherence.tools.serializers.clojure.KeywordPofSerializer</class-name>
+      </serializer>
+    </user-type>
+    <user-type>
+      <type-id>1004</type-id>
+      <class-name>clojure.lang.IMapEntry</class-name>
+      <serializer>
+      	<class-name>net.matlux.coherence.tools.serializers.clojure.IMapEntryPofSerializer</class-name>
+      </serializer>
+    </user-type>
+    <user-type>
+      <type-id>1005</type-id>
+      <class-name>clojure.lang.APersistentMap</class-name>
+      <serializer>
+      	<class-name>net.matlux.coherence.tools.serializers.clojure.APersistentMapPofSerializer</class-name>
+      </serializer>
+    </user-type>
 
 
   </user-type-list>

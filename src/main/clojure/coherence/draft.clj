@@ -44,11 +44,12 @@
 
 (.put cache 5 {:a 1 :b 2})
 (.get cache 5)
+;(get-method-names (first (into [] (.entrySet {:a 1}))))
+(.put cache 5 (first (into [] (.entrySet {:a 1}))))
 
 (def all-filter (new AlwaysFilter))
 
 
-(def nodeCache (Caches/getCache (Caches$Cache/NODE)))
 
 (let [all-filter (new AlwaysFilter)
       nodeCache (get-cache "positions")]
