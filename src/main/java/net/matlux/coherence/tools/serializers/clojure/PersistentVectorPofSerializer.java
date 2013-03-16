@@ -29,7 +29,7 @@ public class PersistentVectorPofSerializer extends AbstractEvolvablePofSerialize
     	Collection<Object> coll = new LinkedList<Object>();
     	coll = reader.readCollection(0, coll);
 
-    	PersistentVector pmap = (PersistentVector) RT.vector(null);
+    	PersistentVector pmap = (PersistentVector) RT.vector();
         for (Object entry : coll) {
         	pmap = pmap.cons(entry);
         }
