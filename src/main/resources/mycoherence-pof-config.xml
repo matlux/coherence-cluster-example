@@ -48,6 +48,27 @@
       	<class-name>net.matlux.coherence.tools.serializers.clojure.APersistentMapPofSerializer</class-name>
       </serializer>
     </user-type>
+    <user-type>
+      <type-id>1006</type-id>
+      <class-name>clojure.lang.PersistentList</class-name>
+      <serializer>
+      	<class-name>net.matlux.coherence.tools.serializers.clojure.PersistentListPofSerializer</class-name>
+      </serializer>
+    </user-type>
+    <user-type>
+      <type-id>1007</type-id>
+      <class-name>clojure.lang.PersistentVector</class-name>
+      <serializer>
+      	<class-name>net.matlux.coherence.tools.serializers.clojure.PersistentVectorPofSerializer</class-name>
+      </serializer>
+    </user-type>
+    <user-type>
+      <type-id>1008</type-id>
+      <class-name>clojure.lang.IPersistentSet</class-name>
+      <serializer>
+      	<class-name>net.matlux.coherence.tools.serializers.clojure.PersistentSetPofSerializer</class-name>
+      </serializer>
+    </user-type>
 
 
   </user-type-list>

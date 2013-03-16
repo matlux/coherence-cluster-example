@@ -46,7 +46,9 @@
 (.get cache 5)
 ;(get-method-names (first (into [] (.entrySet {:a 1}))))
 (.put cache 5 (first (into [] (.entrySet {:a 1}))))
-
+(.put cache 5 '(:a 1 :b 2))
+(.put cache 5 [:a 1 :b 2])
+(.put cache 5 #{:a 1 :b 2})
 (def all-filter (new AlwaysFilter))
 
 
